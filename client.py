@@ -1,17 +1,28 @@
 import socket
 
+HEADERSIZE = 10
+
 ## Define a socket object and enable connection
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.connect((socket.gethostname(), 1234))
 
 ## Data buffer 
-fullMsg = ''
 while True:
-    ## Recives the message by lengths of 8 until the mesage 
-    ## length is zero (break), then prints the full message.
-    msg = s.recv(8)
-    if len(msg) <= 0:
-        break
-    fullMsg += msg.decode("utf-8")
+    fullMsg = ''
+    newMsg = True
+    while True:
+        msg = s.recv(16)
+        ## When its a new message
+        if newMsg:
+            print(f'new message of length {len(msg[:HEADERSIZE])}')
+            msgLen = int(msg[:HEADERSIZE])
+            newMsg = False
+        fullMsg += msg.decode("utf-8")
+        ## When the full message is recived
+        if len(fullMsg)-HEADERSIZE == msgLen:
+            print("full msg recived")
+            print(fullMsg[HEADERSIZE:])
+            fullMsg = ''
+            newMsg = True
 
-print(fullMsg)
+  

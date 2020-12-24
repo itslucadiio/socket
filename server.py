@@ -1,5 +1,7 @@
 import socket
 
+HEADERSIZE = 10
+
 ## Define a socket object and enable connection
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind((socket.gethostname(), 1234))
@@ -10,6 +12,7 @@ while True:
     clientsocket, address = s.accept()
     print(f"Connection from {address} has been establihed.")
     ## Send information to the client
-    clientsocket.send(bytes("Welcome to the server!", "utf-8"))
-    ##Close connection
-    clientsocket.close()
+    ## The msg corresponds to a fixed-length header of legth 10 and the actual message
+    msg = "Welcome to the server!"
+    msg = f'{len(msg):<{HEADERSIZE}}' + msg
+    clientsocket.send(bytes(msg, "utf-8"))
