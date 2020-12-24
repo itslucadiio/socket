@@ -13,6 +13,6 @@ while True:
     print(f"Connection from {address} has been establihed.")
     ## Send information to the client
     ## The msg corresponds to a fixed-length header of legth 10 and the actual message
-    msg = "Welcome to the server!"
+    msg = "Welcome to the server Guillem!"
     msg = f'{len(msg):<{HEADERSIZE}}' + msg
     clientsocket.send(bytes(msg, "utf-8"))

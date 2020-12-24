@@ -77,7 +77,8 @@ HEADERSIZE = 10
 
 ## Define a socket object and enable connection
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect((socket.gethostname(), 1234))
+serverAddress = socket.gethostname()
+s.connect((serverAddress, 1234))
 
 ## Data buffer 
 while True:
